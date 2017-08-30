@@ -10,16 +10,26 @@ var server = ws.createServer(function (conn) {
     console.log("New connection");
     clientCount++;
     conn.nickname='user'+clientCount;
+    var mes={};
+    mes.type="enter";
+    mes.data=conn.nickname+'进入聊天室'
     //一个用户进入聊天室时广播所有客户端
-    broadcast(conn.nickname+'进入聊天室');
+    broadcast(JSON.stringify(mes));
     conn.on("text", function (str) {
         console.log("Received "+str);
-        //把一个用户说的话广播到所有客户端
-        broadcast(conn.nickname+'say:'+str);
+        var mes={};
+        mes.type="message";
+        mes.data=str;
+        //一个用户说的话广播所有客户端
+        broadcast(JSON.stringify(mes));
     })
     conn.on("close", function (code, reason) {
         console.log("Connection closed");
-        broadcast(conn.nickname+'已经离开聊天室')
+        var mes={};
+        mes.type="leave";
+        mes.data=conn.nickname+'离开聊天室'
+        //一个用户离开聊天室时广播所有客户端
+        broadcast(JSON.stringify(mes));
     })
     conn.on("error",function (err) {
         console.log("handle error");
