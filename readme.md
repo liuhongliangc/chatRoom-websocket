@@ -5,7 +5,7 @@
 1-4 原生websocket实现。<br/>
 demo6使用socket.io相当于封装起的一个库，简化了操作过程。<br/>
 
-运行安装
+运行安装(demo6)
 > npm install nodejs-websocket<br/>
-npm install socket.io
-
+npm install socket.io<br/>
+node wsServer.js
